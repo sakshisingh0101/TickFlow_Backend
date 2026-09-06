@@ -45,4 +45,14 @@ app.use("/api/v1/users",userRouter);
 app.use("/api/v1/payments" , paymentRouter);
 app.use("/api/v1/bookings" , bookingRouter);
 
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  res.status(statusCode).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+    errors: err.errors || []
+  });
+});
+
+
 export {app};
